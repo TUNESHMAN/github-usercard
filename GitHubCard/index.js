@@ -1,7 +1,16 @@
 /* Step 1: using axios, send a GET request to the following URL 
-           (replacing the palceholder with your Github name):
+           (replacing the placeholder with your Github name):
            https://api.github.com/users/<your name>
 */
+axios.get('https://api.github.com/users/Tuneshman')
+.then((info)=>{
+  console.log(info.data);
+  
+})
+.catch((error)=>{
+console.log(error);
+
+})
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -53,3 +62,16 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+const outerDiv = document.createElement('div');
+const picture = document.createElement('img');
+const InnerDiv = document.createElement('div');
+const smallHeader = document.createElement('h3');
+const para1 = document.createElement('p');
+const para2 = document.createElement('p');
+const para3 = document.createElement('p');
+const para4 = document.createElement('p');
+const para5 = document.createElement('p');
+const para6 = document.createElement('p');
+
+
