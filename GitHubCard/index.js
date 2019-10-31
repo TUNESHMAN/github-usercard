@@ -53,16 +53,7 @@ const followersArray = [];
   luishrd
   bigknell
 */
-function createCard(
-  avatar_url,
-  name,
-  login,
-  location,
-  url,
-  followers,
-  following,
-  bio
-) {
+function createCard(data) {
   // CREATE HTML MARKUP
   const outerDiv = document.createElement("div");
   const picture = document.createElement("img");
@@ -76,6 +67,24 @@ function createCard(
   const para6 = document.createElement("p");
   const anchor = document.createElement("a");
 
+  // CREATE CLASSES
+  outerDiv.classList.add("card");
+  innerDiv.classList.add("card-info");
+  smallHeader.classList.add("name");
+  para1.classList.add("username");
+
+  // ADD CONTENT
+  picture.src = data.avatar_url;
+  smallHeader.textContent = data.name;
+  para1.textContent = data.login;
+  para2.textContent = data.location;
+  para4.textContent = `Followers: ${data.followers}`;
+  para5.textContent =`Following: ${data.following}` ;
+  para6.textContent = `Bio: ${data.bio}`;
+  para3.textContent = `Profile: `;
+  anchor.setAttribute("href", data.url);
+  anchor.textContent = data.url;
+
   // DEFINE HTML MARKUP
   outerDiv.append(picture);
   outerDiv.append(innerDiv);
@@ -85,24 +94,7 @@ function createCard(
   innerDiv.append(para4);
   innerDiv.append(para5);
   innerDiv.append(para6);
-  para3.append(smallHeader);
-
-  // CREATE CLASSES
-  outerDiv.classList.add("card");
-  innerDiv.classList.add("card-info");
-  smallHeader.classList.add("name");
-  para1.classList.add("username");
-
-  // ADD CONTENT
-  picture.src = avatar_url;
-  smallHeader.textContent = name;
-  para1.textContent = login;
-  para2.textContent = location;
-  para4.textContent = followers;
-  para5.textContent = following;
-  para6.textContent = bio;
-  para3.textContent = `Profile`;
-  anchor.textContent = url;
+  para3.append(anchor);
 
   return outerDiv;
 }
@@ -112,7 +104,12 @@ const bodyStructure = document.querySelector(".cards");
 axios
   .get("https://api.github.com/users/Tuneshman")
   .then(info => {
-    bodyStructure.append(createCard(info.data.avatar_url, info.data.name, info.data.login, info.data.location, info.data.followers, info.data.following, info.data.bio,));
+    bodyStructure.append(
+      createCard(
+        info.data,
+    
+      )
+    );
   })
   .catch(error => {
     console.log(error);
