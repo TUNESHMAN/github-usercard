@@ -2,15 +2,6 @@
            (replacing the placeholder with your Github name):
            https://api.github.com/users/<your name>
 */
-axios.get('https://api.github.com/users/Tuneshman')
-.then((info)=>{
-  console.log(info.data);
-  
-})
-.catch((error)=>{
-console.log(error);
-
-})
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -62,16 +53,67 @@ const followersArray = [];
   luishrd
   bigknell
 */
+function createCard(
+  avatar_url,
+  name,
+  login,
+  location,
+  url,
+  followers,
+  following,
+  bio
+) {
+  // CREATE HTML MARKUP
+  const outerDiv = document.createElement("div");
+  const picture = document.createElement("img");
+  const innerDiv = document.createElement("div");
+  const smallHeader = document.createElement("h3");
+  const para1 = document.createElement("p");
+  const para2 = document.createElement("p");
+  const para3 = document.createElement("p");
+  const para4 = document.createElement("p");
+  const para5 = document.createElement("p");
+  const para6 = document.createElement("p");
+  const anchor = document.createElement("a");
 
-const outerDiv = document.createElement('div');
-const picture = document.createElement('img');
-const InnerDiv = document.createElement('div');
-const smallHeader = document.createElement('h3');
-const para1 = document.createElement('p');
-const para2 = document.createElement('p');
-const para3 = document.createElement('p');
-const para4 = document.createElement('p');
-const para5 = document.createElement('p');
-const para6 = document.createElement('p');
+  // DEFINE HTML MARKUP
+  outerDiv.append(picture);
+  outerDiv.append(innerDiv);
+  innerDiv.append(para1);
+  innerDiv.append(para2);
+  innerDiv.append(para3);
+  innerDiv.append(para4);
+  innerDiv.append(para5);
+  innerDiv.append(para6);
+  para3.append(smallHeader);
 
+  // CREATE CLASSES
+  outerDiv.classList.add("card");
+  innerDiv.classList.add("card-info");
+  smallHeader.classList.add("name");
+  para1.classList.add("username");
 
+  // ADD CONTENT
+  picture.src = avatar_url;
+  smallHeader.textContent = name;
+  para1.textContent = login;
+  para2.textContent = location;
+  para4.textContent = followers;
+  para5.textContent = following;
+  para6.textContent = bio;
+  para3.textContent = `Profile`;
+  anchor.textContent = url;
+
+  return outerDiv;
+}
+
+const bodyStructure = document.querySelector(".cards");
+// MAKING MY API REQUEST
+axios
+  .get("https://api.github.com/users/Tuneshman")
+  .then(info => {
+    bodyStructure.append(createCard(info.data.avatar_url, info.data.name, info.data.login, info.data.location, info.data.followers, info.data.following, info.data.bio,));
+  })
+  .catch(error => {
+    console.log(error);
+  });
