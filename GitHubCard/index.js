@@ -1,5 +1,5 @@
 /* Step 1: using axios, send a GET request to the following URL 
-           (replacing the palceholder with your Github name):
+           (replacing the placeholder with your Github name):
            https://api.github.com/users/<your name>
 */
 
@@ -53,3 +53,64 @@ const followersArray = [];
   luishrd
   bigknell
 */
+function createCard(data) {
+  // CREATE HTML MARKUP
+  const outerDiv = document.createElement("div");
+  const picture = document.createElement("img");
+  const innerDiv = document.createElement("div");
+  const smallHeader = document.createElement("h3");
+  const para1 = document.createElement("p");
+  const para2 = document.createElement("p");
+  const para3 = document.createElement("p");
+  const para4 = document.createElement("p");
+  const para5 = document.createElement("p");
+  const para6 = document.createElement("p");
+  const anchor = document.createElement("a");
+
+  // CREATE CLASSES
+  outerDiv.classList.add("card");
+  innerDiv.classList.add("card-info");
+  smallHeader.classList.add("name");
+  para1.classList.add("username");
+
+  // ADD CONTENT
+  picture.src = data.avatar_url;
+  smallHeader.textContent = data.name;
+  para1.textContent = data.login;
+  para2.textContent = data.location;
+  para4.textContent = `Followers: ${data.followers}`;
+  para5.textContent =`Following: ${data.following}` ;
+  para6.textContent = `Bio: ${data.bio}`;
+  para3.textContent = `Profile: `;
+  anchor.setAttribute("href", data.url);
+  anchor.textContent = data.url;
+
+  // DEFINE HTML MARKUP
+  outerDiv.append(picture);
+  outerDiv.append(innerDiv);
+  innerDiv.append(para1);
+  innerDiv.append(para2);
+  innerDiv.append(para3);
+  innerDiv.append(para4);
+  innerDiv.append(para5);
+  innerDiv.append(para6);
+  para3.append(anchor);
+
+  return outerDiv;
+}
+
+const bodyStructure = document.querySelector(".cards");
+// MAKING MY API REQUEST
+axios
+  .get("https://api.github.com/users/Tuneshman")
+  .then(info => {
+    bodyStructure.append(
+      createCard(
+        info.data,
+    
+      )
+    );
+  })
+  .catch(error => {
+    console.log(error);
+  });
